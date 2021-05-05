@@ -10,14 +10,16 @@ import axios from '../axios'
 
 
 
+
 const Admin = () => {
 
     const [loading, setLoading] = useState(true)
     const [question, setQuestion] = useState("")
     const [variants, setVariant] = useState([
-        { option: '', votes: 0 },
-        { option: '', votes: 0 },
+        { option: 'opt1', votes: 0 },
+        { option: 'opt2', votes: 0 },
     ])
+
 
     const postData = useCallback((data) => {
         axios.post(`/Polls.json`, data)
@@ -40,11 +42,12 @@ const Admin = () => {
         setQuestion(event.target.value);
     };
 
-    const handleOptions = (event, i) => {
-        let newOptions = [...variants]
-        newOptions[i].option = event.target.value
 
-        setVariant(prev => ({ ...prev, option: newOptions, votes: 0 }))
+    const handleOptions = (i, event) => {
+        const { name, value } = event.target;
+        let newOptions = [...variants]
+        newOptions[i].option = value;
+        setVariant(newOptions)
     };
 
 
@@ -63,7 +66,7 @@ const Admin = () => {
         setLoading(true)
         let formOptions = {}
         for (let el in variants) {
-            formOptions[el] = variants[el].value
+            formOptions[el] = variants[el].option
         }
         const pollQuestion = {
             Question: question,
@@ -79,7 +82,7 @@ const Admin = () => {
         <Container maxWidth="lg">
             <Grid container spacing={3}>
                 <Grid item xl={12} xs={12}>
-                    <FormControl style={{margin: '2em'}}>
+                    <FormControl style={{ margin: '2em' }}>
                         <Card>
                             <CardHeader
                                 title="Create your New Poll"
@@ -98,26 +101,23 @@ const Admin = () => {
                                             variant="outlined"
                                         />
                                     </Grid>
-
                                     {
-
-                                        loading ? <p>Loading...</p> : variants.map((opt, i) => {
+                                        variants.map((option, i) => {
                                             return (
-                                                <Grid item xl={12} xs={12} key={i} >
+                                                <Grid item xl={12} xs={12} key={i}>
                                                     <TextField
                                                         fullWidth
                                                         label={"Poll option " + (i + 1)}
                                                         name={"option " + (i + 1)}
-                                                        onChange={(e) => handleOptions(e, i)}
+                                                        onChange={(e) => handleOptions(i, e)}
                                                         required
-                                                        value={opt.option}
+                                                        value={option[i]}
                                                         variant="outlined"
                                                     />
                                                 </Grid>
                                             )
                                         })
                                     }
-
                                     <Grid item xl={12} xs={12} >
                                         <FormHelperText>Add more options</FormHelperText>
                                         <Button color="secondary" variant="contained" onClick={addField}>+</Button>
