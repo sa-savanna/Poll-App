@@ -1,6 +1,14 @@
-.App {
-  text-align: center;
+li {
+  list-style: none;
 }
+
+.App {
+  display: grid;
+  grid-template: 100vh / repeat(auto-fill, minmax(350px, 1fr));
+  grid-gap: 0.5vw;
+  align-items: center;
+}
+
 
 .App-logo {
   height: 40vmin;

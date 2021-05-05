@@ -1,0 +1,197 @@
+$main-black: #000;
+$main-yellow: #fdda24;
+$main-red: #ef3340;
+$secondary-blue: #005bbb;
+$secondary-yellow: #ffd500;
+
+li {
+    list-style: none;
+}
+
+
+.App {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 0.5vw;
+    align-items: center;
+
+
+    .left-section {
+        font-size: 1vw;
+        padding: 1rem;
+        margin: 1.5rem;
+        border-radius: 16px;
+        min-height: 250px;
+        border: 7px solid $main-black;
+
+        .left-main {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            .MuiFormControl-root {
+                flex-direction: row
+            }
+
+            ol {
+                counter-reset: li;
+                list-style: none;
+                font: 15px 'trebuchet MS', 'lucida sans';
+                padding: 0;
+                // margin-bottom: 4em;
+                text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+                display: flex;
+                flex-direction: column;
+
+                li {
+                    display: flex;
+                    position: relative;
+
+                    span {
+                        position: relative;
+                        display: block;
+                        padding: .4em .4em .4em .8em;
+                        margin: .5em 0 .5em 2.5em;
+                        background: $secondary-yellow;
+                        color: #444;
+                        text-decoration: none;
+                        width: 20rem;
+
+                        &:before {
+                            content: counter(li);
+                            counter-increment: li;
+                            position: absolute;
+                            left: -2.5em;
+                            top: 50%;
+                            margin-top: -1em;
+                            background: $secondary-blue;
+                            color: white;
+                            height: 2em;
+                            width: 2em;
+                            line-height: 2em;
+                            text-align: center;
+                            font-weight: bold;
+                        }
+
+                        &:after {
+                            position: absolute;
+                            content: '';
+                            border: .5em solid transparent;
+                            left: -1em;
+                            top: 50%;
+                            margin-top: -.5em;
+                            transition: all .3s ease-out;
+                        }
+
+                        &:hover:after {
+                            left: -.5em;
+                            border-left-color: $secondary-blue;
+                        }
+
+                    }
+
+                    .delete-btn {
+                        background-color: transparent;
+                        color: red;
+                        border: none;
+                        font-size: 15px;
+                        // stroke: red;
+                    }
+
+
+
+
+
+                }
+            }
+
+            .left-form {
+                border: 1px solid #a4a4a4;
+                padding: 15px 20px;
+                border-radius: 4px;
+            }
+
+            img {
+                width: 9rem;
+                transform: translate(50%);
+            }
+        }
+
+        .left-bottom {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+
+            .MuiButton-containedPrimary {
+                color: #fff;
+                background-color: $main-black;
+            }
+
+        }
+    }
+
+    .middle-section {
+        display: flex;
+        flex-direction: column;
+        font-size: 1vw;
+        padding: 1rem;
+        margin: 1.5rem;
+        border-radius: 16px;
+        min-height: 250px;
+        border: 7px solid $main-yellow;
+
+        .middle-main {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            .MuiRadio-colorSecondary.Mui-checked {
+                color: $main-yellow;
+            }
+
+            p {
+                font-size: larger;
+                color: $main-red;
+            }
+
+
+            img {
+                width: 150px;
+                padding: 10px;
+            }
+        }
+
+
+
+        .middle-bottom {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+
+
+            .MuiButton-containedPrimary {
+                color: $main-black;
+                background-color: $main-yellow;
+            }
+
+        }
+    }
+
+    .right-section {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        font-size: 1vw;
+        padding: 0.5rem;
+        margin: 1.5rem;
+        border-radius: 16px;
+        min-height: 250px;
+        border: 7px solid $main-red;
+
+        svg rect {
+            fill: $main-red
+        }
+    }
+}
