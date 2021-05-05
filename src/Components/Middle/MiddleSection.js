@@ -16,7 +16,7 @@ const MiddleSection = ({ handleSeceltedChange, sumbitVote, question, variants })
                 />
             </div>
 
-            <div className='middle-bottom'>
+            <div className='middle-footer'>
                 <Button
                     variant="contained"
                     color="primary"

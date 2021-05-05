@@ -9,7 +9,7 @@ const RightSection = ({totalVotes, variants}) => {
         <div className="right-section">
             <BarChart variants={variants}/>
 
-            <div className='right-bottom'>
+            <div className='right-footer'>
                 <p>Total votes: {totalVotes && totalVotes}</p>
             </div>
         </div>

@@ -10,8 +10,8 @@ li {
 
 .nav-buttons {
     margin: 1em;
-    
-    :first-child{
+
+    :first-child {
         margin-right: 10px;
     }
 }
@@ -43,6 +43,9 @@ li {
             }
 
             ol {
+                max-height: 250px;
+                overflow-y: auto;
+                // ----------
                 counter-reset: li;
                 list-style: none;
                 font: 15px 'trebuchet MS', 'lucida sans';
@@ -53,15 +56,30 @@ li {
                 flex-direction: column;
 
                 li {
+
+                    cursor: default;
+                    overflow: hidden;
+                    // ---------
                     display: flex;
                     position: relative;
+
+                    svg {
+                        position: absolute;
+                        right: 10px;
+                        background: #e74c3c;
+                        text-align: center;
+                        color: #fff;
+                        border-radius: 0 3px 3px 0;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                    }
 
                     span {
                         position: relative;
                         display: block;
                         padding: .4em .4em .4em .8em;
                         margin: .5em 0 .5em 2.5em;
-                        background: $secondary-yellow;
+                        border: 1px solid $secondary-blue;
                         color: #444;
                         text-decoration: none;
                         width: 20rem;
@@ -114,10 +132,21 @@ li {
                 }
             }
 
+
+
+
             .left-form {
-                border: 1px solid #a4a4a4;
-                padding: 15px 20px;
                 border-radius: 4px;
+                display: flex;
+                align-self: baseline;
+
+                input.first-form.form-control {
+                    position: relative;
+                    padding: .4em .4em .4em .8em;
+                    border: 1px solid $secondary-blue;
+                    margin-right: 0.5em;
+                    border-radius: 4px;
+                }
             }
 
             img {
@@ -126,7 +155,7 @@ li {
             }
         }
 
-        .left-bottom {
+        .left-footer {
             display: flex;
             justify-content: space-between;
             margin-top: 2rem;
@@ -173,7 +202,7 @@ li {
 
 
 
-        .middle-bottom {
+        .middle-footer {
             display: flex;
             justify-content: space-between;
             margin-top: 2rem;
@@ -197,9 +226,13 @@ li {
         border-radius: 16px;
         min-height: 250px;
         border: 7px solid $main-red;
-
+      
         svg rect {
             fill: $main-red
+        }
+
+        .Component-root-10 {
+            height: 300px !important;
         }
     }
 }

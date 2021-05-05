@@ -17,7 +17,7 @@ const AddOption = ({ onSubmit, variants }) => {
 
 
     return (
-        <Form>
+        <Form className='left-form'>
             <Form.Control
                 className="first-form"
                 type="text"
@@ -26,7 +26,7 @@ const AddOption = ({ onSubmit, variants }) => {
                 value={inputText}
                 onChange={e => setInputText(e.target.value)}
             />{' '}
-            <Button size='small' type="submit" variant="outlined" onClick={submitHandler}>Add</Button>
+            <Button color="primary" size='small' type="submit" variant="contained" onClick={submitHandler}>Add</Button>
         </Form>
 
     )

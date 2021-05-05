@@ -24,7 +24,7 @@ const LeftSection = ({ deleteOption, submitOption, onReset, variants, question }
                 }
 
             </div>
-            <div className='left-bottom'>
+            <div className='left-footer'>
                 <Summary reset={onReset} variants={variants} />
             </div>
         </div>

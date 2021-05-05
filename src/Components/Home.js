@@ -34,6 +34,7 @@ const Home = () => {
     const handleSeceltedChange = (e) => {
         let selectedOption = e.target.value
         setSelected(selectedOption)
+        
     }
 
     const sumbitVote = () => {
@@ -41,9 +42,8 @@ const Home = () => {
             variants.map(answer =>
                 answer.option === selected ? { ...answer, votes: answer.votes + 1, } : answer
             ))
-
         setTotalVotes(totalVotes + 1)
-        setSelected(false)
+        
     }
 
 

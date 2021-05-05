@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import './App.scss';
 import Home from './Components/Home'
-import { Box, Container, Grid, Button } from '@material-ui/core';
+import { Box, Grid, Button } from '@material-ui/core';
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,24 +22,22 @@ const App = () => {
           minHeight: '100%',
           py: 15
         }}>
-        <Container maxWidth={false} spacing={3}>
-          <div className='nav-buttons'>
-            <Button variant="contained" color="primary" href="/admin">
-              For Admin
+        <div className='nav-buttons'>
+          <Button variant="contained" color="primary" href="/admin">
+            For Admin
               </Button>
-            <Button variant="contained" color="primary" href="/">
-              Home
+          <Button variant="contained" color="primary" href="/">
+            Home
               </Button>
-          </div>
-          <Grid item lg={12}>
-            <Switch>
-              <Route exact path="/"><Home /></Route>
-              <Suspense fallback={<>loading...</>}>
-                <Route path="/admin" component={asyncAdmin}></Route>
-              </Suspense>
-            </Switch>
-          </Grid>
-        </Container>
+        </div>
+        <Grid item lg={12}>
+          <Switch>
+            <Route exact path="/"><Home /></Route>
+            <Suspense fallback={<>loading...</>}>
+              <Route path="/admin" component={asyncAdmin}></Route>
+            </Suspense>
+          </Switch>
+        </Grid>
       </Box>
     </Router >
   )
