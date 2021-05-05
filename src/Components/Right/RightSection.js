@@ -1,17 +1,13 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import BarChart from './BarChart'
-import { DataContext } from "../../DataContext"
 
 
 
-
-const RightSection = () => {
-
-    const { totalVotes} = useContext(DataContext);
+const RightSection = ({totalVotes, variants}) => {
 
     return (
         <div className="right-section">
-            <BarChart />
+            <BarChart variants={variants}/>
 
             <div className='right-bottom'>
                 <p>Total votes: {totalVotes && totalVotes}</p>

@@ -1,44 +1,23 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
+import React, { useState } from 'react';
 import LeftSection from './Left/LeftSection';
 import MiddleSection from './Middle/MiddleSection';
 import RightSection from './Right/RightSection';
-import axios from '../axios'
-import { DataContext } from "../DataContext"
-
 
 
 const Home = () => {
 
-    const { variants, setVariant,
-        totalVotes, setTotalVotes,
-        setLoading } = useContext(DataContext);
-
     const [selected, setSelected] = useState("")
-
-    const postData = useCallback((route, id) => {
-        axios.post(`${route}`, id)
-            .then(response => {
-                console.log("Successfuly")
-                setLoading(false)
-            })
-            .catch(error => {
-                console.error("Error writing document: ", error);
-                setLoading(false)
-            })
-    }, [setLoading])
-
-    useEffect(() => {
-        postData()
-    }, [postData])
+    const [question, setQuestion] = useState("What is the value of PI?")
+    const [totalVotes, setTotalVotes] = useState(0)
+    const [variants, setVariant] = useState([
+        { option: '3.14', votes: 0 },
+        { option: '3.1416', votes: 0 },
+    ])
 
 
     const submitOption = (addOption) => {
         const updatedOptions = [...variants, { option: addOption, votes: 0 }]
-        // const updatedOptions = variants.push([...variants,{ option: addOption }])
-        // setVariant(updatedOptions)
-        postData("/Polls/Options.json", updatedOptions)
-
-        setVariant('')
+        setVariant(updatedOptions)
     }
 
     const deleteOption = (idx) => {
@@ -69,22 +48,30 @@ const Home = () => {
 
 
     return (
+
         <div className="App">
+
             <LeftSection
                 deleteOption={deleteOption}
                 submitOption={submitOption}
                 onReset={onReset}
+                variants={variants}
+                question={question}
             />
 
             <MiddleSection
                 handleSeceltedChange={handleSeceltedChange}
                 sumbitVote={sumbitVote}
+                question={question}
+                variants={variants}
             />
 
-            <RightSection />
+            <RightSection
+                totalVotes={totalVotes}
+                variants={variants} />
 
         </div>
-    );
+    )
 }
 
 export default Home;

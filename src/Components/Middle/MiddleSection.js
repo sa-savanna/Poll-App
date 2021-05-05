@@ -1,21 +1,18 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Variants from './Variants';
 import { Button } from '@material-ui/core';
-import { DataContext } from "../../DataContext"
 
 
 
-const MiddleSection = ({ handleSeceltedChange, sumbitVote }) => {
+const MiddleSection = ({ handleSeceltedChange, sumbitVote, question, variants }) => {
 
-    const { question } = useContext(DataContext);
-   
     return (
         <div className="middle-section">
             <div className="middle-main">
                 <h1>{question && question}</h1>
                 <Variants
                     handleChange={handleSeceltedChange}
-
+                    variants={variants}
                 />
             </div>
 

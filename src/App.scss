@@ -8,12 +8,20 @@ li {
     list-style: none;
 }
 
+.nav-buttons {
+    margin: 1em;
+    
+    :first-child{
+        margin-right: 10px;
+    }
+}
 
 .App {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     grid-gap: 0.5vw;
     align-items: center;
+
 
 
     .left-section {

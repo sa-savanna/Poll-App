@@ -1,15 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState} from 'react';
 import { Form } from "react-bootstrap"
 import { Button } from '@material-ui/core';
-import { DataContext } from "../../../DataContext"
 
 
-const AddOption = ({ onSubmit }) => {
+const AddOption = ({ onSubmit, variants }) => {
 
-    const { variants } = useContext(DataContext);
     const [inputText, setInputText] = useState("")
-    let { options } = variants
-    options = variants.map(opt => opt.option)
+    
+    const options = variants.map(opt => opt.option)
 
     const submitHandler = event => {
         event.preventDefault();

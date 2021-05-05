@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
     FormControl, FormHelperText,
     TextField, CardContent,
@@ -6,29 +6,35 @@ import {
     Container, Button,
     Grid
 } from '@material-ui/core';
-// import firebase from '../firebase';
 import axios from '../axios'
-import { DataContext } from "../DataContext"
 
 
 
 const Admin = () => {
 
-    const { variants, setVariant,
-        question, setQuestion,
-        totalVotes,
-        loading, setLoading } = useContext(DataContext);
-
-    const [options, setOptions] = useState([
+    const [loading, setLoading] = useState(true)
+    const [question, setQuestion] = useState("")
+    const [variants, setVariant] = useState([
         { option: '', votes: 0 },
         { option: '', votes: 0 },
     ])
 
+    const postData = useCallback((data) => {
+        axios.post(`/Polls.json`, data)
+            .then(response => {
+                console.log("Successfuly")
+                setLoading(false)
+            })
+            .catch(error => {
+                console.error("Error writing document: ", error);
+                setLoading(false)
+            })
+
+    }, [setLoading])
+
     useEffect(() => {
-        setVariant(variants)
-    }, [variants, setVariant])
-
-
+        postData()
+    }, [postData])
 
     const handleTitle = (event) => {
         setQuestion(event.target.value);
@@ -43,13 +49,13 @@ const Admin = () => {
 
 
     const addField = () => {
-        setOptions([...options, { option: "", vote: 0 }]);
+        setVariant([...variants, { option: "", vote: 0 }]);
     }
 
     const removeField = (i) => {
-        const newOptions = [...options];
+        const newOptions = [...variants];
         newOptions.splice(i, 1);
-        setOptions(newOptions);
+        setVariant(newOptions);
     }
 
     const submitPoll = (e) => {
@@ -61,38 +67,19 @@ const Admin = () => {
         }
         const pollQuestion = {
             Question: question,
-            TotalVotes: totalVotes,
+            TotalVotes: 0,
             Options: formOptions
         }
-
-        axios.post(`/Polls.json`, pollQuestion)
-            .then(response => {
-                console.log("Successfuly")
-                setLoading(false)
-            })
-            .catch(error => {
-                console.error("Error writing document: ", error);
-                setLoading(false)
-            })
+        postData(pollQuestion)
         setQuestion('')
     }
 
 
     return (
-        <Box
-            sx={{
-                backgroundColor: 'background.default',
-                minHeight: '100%',
-                py: 7,
-                mt: 5
-            }}
-        >
-            <Container maxWidth="lg">
-                <Grid
-                    container
-                    spacing={3}
-                >
-                    <FormControl>
+        <Container maxWidth="lg">
+            <Grid container spacing={3}>
+                <Grid item xl={12} xs={12}>
+                    <FormControl style={{margin: '2em'}}>
                         <Card>
                             <CardHeader
                                 title="Create your New Poll"
@@ -114,7 +101,7 @@ const Admin = () => {
 
                                     {
 
-                                        !loading && variants.map((opt, i) => {
+                                        loading ? <p>Loading...</p> : variants.map((opt, i) => {
                                             return (
                                                 <Grid item xl={12} xs={12} key={i} >
                                                     <TextField
@@ -159,8 +146,8 @@ const Admin = () => {
                         </Card>
                     </FormControl>
                 </Grid>
-            </Container>
-        </Box>
+            </Grid>
+        </Container>
     )
 }
 

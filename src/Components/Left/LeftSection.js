@@ -1,14 +1,11 @@
-import React, { useContext } from 'react'
-import List from './Main/List'
-import AddOption from './Main/AddOption'
-import Summary from './Bottom/Summary';
-import { DataContext } from "../../DataContext"
+import React from 'react'
+import List from './List'
+import AddOption from './AddOption'
+import Summary from './Summary';
 
 
+const LeftSection = ({ deleteOption, submitOption, onReset, variants, question }) => {
 
-const LeftSection = ({ deleteOption, submitOption, onReset }) => {
-
-    const { variants, question } = useContext(DataContext);
 
     return (
         <div className="left-section">
@@ -23,7 +20,7 @@ const LeftSection = ({ deleteOption, submitOption, onReset }) => {
                 </ol>
                 {
                     variants && variants.length < 10 && (
-                        <AddOption onSubmit={submitOption} />)
+                        <AddOption onSubmit={submitOption} variants={variants} />)
                 }
 
             </div>

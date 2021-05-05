@@ -1,12 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core'
-import { DataContext } from "../../DataContext"
 
 
-export const Variants = ({ handleChange }) => {
-    
-    const { variants } = useContext(DataContext);
-    
+export const Variants = ({ handleChange, variants }) => {
+
+
     return (
         <FormControl component="fieldset">
             <RadioGroup aria-label="option" name="name" onChange={handleChange}>

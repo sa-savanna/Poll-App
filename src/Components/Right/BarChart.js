@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import {
     Chart,
     BarSeries,
@@ -7,16 +7,13 @@ import {
 } from '@devexpress/dx-react-chart-material-ui';
 import { Paper } from '@material-ui/core'
 import { Animation } from '@devexpress/dx-react-chart';
-import { DataContext } from "../../DataContext"
 
 
 
-const BarChart = () => {
 
-    const { variants, loading } = useContext(DataContext);
-    const [data, setData] = useState([])
+const BarChart = ({ variants }) => {
 
-    loading ? <p>Loading...</p> : setData([...variants])
+    const data = [...variants]
 
 
     let valueX, valueY = []

@@ -20,37 +20,28 @@ const App = () => {
         sx={{
           backgroundColor: 'background.default',
           minHeight: '100%',
-          py: 3
+          py: 15
         }}>
         <Container maxWidth={false} spacing={3}>
-          <Grid
-            container
-            direction="row"
-            justify="center"
-            alignItems="center"
-          >
-            <Grid
-              item
-              lg={12}
-            >
-              <Button variant="contained" color="primary" href="/admin">
-                For Admin
+          <div className='nav-buttons'>
+            <Button variant="contained" color="primary" href="/admin">
+              For Admin
               </Button>
-              
-            </Grid>
-            <Grid item xs
-            >
-              <Switch>
-                <Route exact path="/"><Home /></Route>
-                <Suspense fallback={<>loading...</>}>
-                  <Route path="/admin" component={asyncAdmin}></Route>
-                </Suspense>
-              </Switch>
-            </Grid>
+            <Button variant="contained" color="primary" href="/">
+              Home
+              </Button>
+          </div>
+          <Grid item lg={12}>
+            <Switch>
+              <Route exact path="/"><Home /></Route>
+              <Suspense fallback={<>loading...</>}>
+                <Route path="/admin" component={asyncAdmin}></Route>
+              </Suspense>
+            </Switch>
           </Grid>
         </Container>
       </Box>
-    </Router>
+    </Router >
   )
 }
 
