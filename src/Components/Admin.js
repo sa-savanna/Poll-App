@@ -100,6 +100,8 @@ const Admin = () => {
                                             required
                                             value={question}
                                             variant="outlined"
+                                            inputProps={{ maxLength: 80 }}
+                                            helperText={`${question.length}/80`}
                                         />
                                     </Grid>
                                     {
@@ -114,6 +116,7 @@ const Admin = () => {
                                                         required
                                                         value={option[i]}
                                                         variant="outlined"
+                                                        inputProps={{ maxLength: 80 }}
                                                     />
                                                 </Grid>
                                             )

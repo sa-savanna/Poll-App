@@ -10,17 +10,10 @@ const Home = () => {
     const { question, totalVotes, variants, loading, setLoading, findId } = useContext(DataContext);
 
     const [selected, setSelected] = useState("")
-    // const [question, setQuestion] = useState("What is the value of PI?")
-    // const [votes, setTotalVotes] = useState(totalVotes)
-    // const [totalVotes, setTotalVotes] = useState(0)
-    // const [variants, setVariants] = useState([
-    // { option: '3.14', votes: 0 },
-    // { option: '3.1416', votes: 0 },
-    // ])
     const [options, setOptions] = useState([])
 
     useEffect(() => {
-       variants && setOptions([...variants])
+        variants && setOptions([...variants])
     }, [setOptions, variants])
 
 
@@ -46,11 +39,11 @@ const Home = () => {
 
     const submitOption = (addOption) => {
         const updatedOption = [...variants, { option: addOption, votes: 0 }]
-        // setVariant(updatedOptions)
         updateData(`/Polls/${findId}/Options.json`, updatedOption)
     }
 
     const sumbitVote = () => {
+        // e.preventDefault()
         // ========doest update votes
         // const newVote = [...variants]
         // newVote.map(answer => {
@@ -60,9 +53,9 @@ const Home = () => {
         //         return { ...answer, votes: vote + 1 }
         //     }
         // })
-        // const total = totalVotes + 1
+        const total = totalVotes + 1
         // updateData(`/Polls/${findId}/Options.json`, newVote)
-        // updateData(`/Polls/${findId}/TotalVotes.json`, total)
+        updateData(`/Polls/${findId}/TotalVotes.json`, total)
 
         // =========== working with hardcored data
         setOptions(variants =>
@@ -76,7 +69,7 @@ const Home = () => {
     const deleteOption = (idx) => {
         let newVariants = [...variants]
         newVariants.splice(idx, 1)
-        updateData(`/Polls/${findId}.json`, newVariants)
+        updateData(`/Polls/${findId}/Options.json`, newVariants)
         // setVariant(newVariants)
     }
 
@@ -98,30 +91,25 @@ const Home = () => {
 
 
         <div className="App">
-            {
-                loading ? <span>Loading</span> : (
-                    <>
-                        <LeftSection
-                            deleteOption={deleteOption}
-                            submitOption={submitOption}
-                            onReset={onReset}
-                            variants={variants && variants}
-                            question={question}
-                        />
+            <LeftSection
+                deleteOption={deleteOption}
+                submitOption={submitOption}
+                onReset={onReset}
+                variants={variants && variants}
+                question={question}
+            />
 
-                        <MiddleSection
-                            handleSeceltedChange={handleSeceltedChange}
-                            sumbitVote={sumbitVote}
-                            question={question}
-                            variants={variants && variants}
-                        />
+            <MiddleSection
+                handleSeceltedChange={handleSeceltedChange}
+                sumbitVote={sumbitVote}
+                question={question}
+                variants={variants && variants}
+            />
 
-                        <RightSection
-                            totalVotes={totalVotes}
-                            variants={options && options} />
-                    </>
-                )
-            }
+            <RightSection
+                totalVotes={totalVotes}
+                variants={options && options} />
+
         </div>
 
     )

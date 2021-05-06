@@ -21,7 +21,7 @@ const MiddleSection = ({ handleSeceltedChange, sumbitVote, question, variants })
                     variant="contained"
                     color="primary"
                     type="submit"
-                    onClick={() => sumbitVote()}>Vote</Button>
+                    onClick={sumbitVote}>Vote</Button>
             </div>
 
         </div>
