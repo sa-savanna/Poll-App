@@ -20,6 +20,8 @@ Views are on: localhost:3000
 
 [Node Sass](https://www.npmjs.com/package/node-sass)
 
+Using Firebase database
+
 ## File Structure
 
 - [public](./public)
