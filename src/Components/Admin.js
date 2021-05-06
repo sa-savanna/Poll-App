@@ -4,20 +4,21 @@ import {
     TextField, CardContent,
     Box, Card, CardHeader, Divider,
     Container, Button,
-    Grid
+    Grid,
 } from '@material-ui/core';
 import axios from '../axios'
+import { useHistory } from "react-router-dom";
 
 
 const Admin = () => {
-
+    let history = useHistory();
     const [loading, setLoading] = useState(true)
     const [question, setQuestion] = useState("")
     const [variants, setVariant] = useState([
         { option: 'opt1', votes: 0 },
         { option: 'opt2', votes: 0 },
     ])
-    const [maxLength, setMaxLength] = useState(80)
+
 
     const postData = useCallback((data) => {
         axios.post(`/Polls.json`, data)
@@ -76,6 +77,8 @@ const Admin = () => {
         postData(pollQuestion)
         setQuestion('')
         setVariant([...variants, { option: '', votes: 0 }])
+        alert("Information submited")
+        history.push("/")
     }
 
 
@@ -91,7 +94,7 @@ const Admin = () => {
                             <Divider />
                             <CardContent>
                                 <Grid container spacing={3}>
-                                    {question.length < maxLength &&
+                                    {question.length < 80 &&
                                         <Grid item xl={12} xs={12}>
                                             <TextField
                                                 fullWidth
@@ -147,6 +150,7 @@ const Admin = () => {
                                 >
                                     Create Poll
                                 </Button>
+
                             </Box>
                         </Card>
                     </FormControl>

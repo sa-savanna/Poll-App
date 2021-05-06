@@ -23,12 +23,13 @@ const App = () => {
           py: 15
         }}>
         <div className='nav-buttons'>
-          <Button variant="contained" color="primary" href="/admin">
-            For Admin
-              </Button>
           <Button variant="contained" color="primary" href="/">
             Home
               </Button>
+          <Button variant="contained" color="primary" href="/admin">
+            For Admin
+              </Button>
+
         </div>
         <div id='admin-container'>
           <Grid item lg={12}>

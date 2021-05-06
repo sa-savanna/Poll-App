@@ -8,19 +8,9 @@ const DataProvider = props => {
     const [loading, setLoading] = useState(true)
     const [question, setQuestion] = useState("")
     const [totalVotes, setTotalVotes] = useState(0)
+    const [votes, setVotes] = useState(0)
     const [variants, setVariant] = useState([])
     const [findId, setId] = useState("")
-
-
-    /* ======== Hardcore data */
-    // const [loading, setLoading] = useState(true)
-    // const [question, setQuestion] = useState("What is the value of PI?")
-    // const [totalVotes, setTotalVotes] = useState(0)
-    // const [variants, setVariant] = useState([
-    //     { option: '3.14', votes: 0 },
-    //     { option: '3.1416', votes: 0 },
-    // ])
-
 
     useEffect(() => {
         axios.get(`/Polls.json`)
@@ -29,10 +19,11 @@ const DataProvider = props => {
                 const result = res.data
                 for (let id in result) {
                     setQuestion(result[id].Question)
+                    setVotes(result[id].Options.votes)
                     setTotalVotes(result[id].TotalVotes)
                     setVariant(result[id].Options)
                     setId(id)
-                  
+
                 }
                 setLoading(false)
             })
@@ -48,9 +39,9 @@ const DataProvider = props => {
             value={{
                 variants,
                 totalVotes,
-                question, 
+                question,
                 loading, setLoading,
-                findId
+                findId, votes
             }}>
             {props.children}
         </DataContext.Provider>

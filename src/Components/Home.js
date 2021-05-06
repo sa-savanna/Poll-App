@@ -5,16 +5,12 @@ import RightSection from './Right/RightSection';
 import { DataContext } from "../DataContext"
 import axios from '../axios'
 
+
 const Home = () => {
 
-    const { question, totalVotes, variants, setLoading, findId } = useContext(DataContext);
-
+    const { question, totalVotes, votes, variants, setLoading, findId } = useContext(DataContext);
     const [selected, setSelected] = useState("")
     const [options, setOptions] = useState([])
-
-    useEffect(() => {
-        setOptions([...variants])
-    }, [setOptions])
 
 
     const updateData = useCallback((route, option) => {
@@ -46,7 +42,7 @@ const Home = () => {
                 console.error("Error writing document: ", error);
                 setLoading(false)
             })
-    }, [setLoading])
+    }, [setLoading, findId])
 
 
 
@@ -56,25 +52,21 @@ const Home = () => {
     }
 
     const sumbitVote = () => {
-        // ========doest update votes
-        // const newVote = [...variants]
-        // newVote.map(answer => {
-        //     let option = answer.option
-        //     let vote = answer.votes
-        //     if (option === selected) {
-        //         return { ...answer, votes: vote + 1 }
-        //     }
-        // })
+        // ========doesn't update votes
+        let newVote = [...variants]
+        newVote.map(answer => answer.option === selected &&
+            [...variants, { option: selected, votes: votes + 1 }]
+        )
+        updateData(`/Polls/${findId}/Options.json`, newVote)
 
-        // updateData(`/Polls/${findId}/Options.json`, newVote)
         const total = totalVotes + 1
         updateData(`/Polls/${findId}/TotalVotes.json`, total)
 
         // =========== working with hardcored data
-        setOptions(variants =>
-            variants.map(answer =>
-                answer.option === selected ? { ...answer, votes: answer.votes + 1, } : answer
-            ))
+        // setOptions(variants =>
+        //     variants.map(answer =>
+        //         answer.option === selected ? { ...answer, votes: answer.votes + 1, } : answer
+        //     ))
     }
 
 
@@ -91,7 +83,6 @@ const Home = () => {
     const handleSeceltedChange = (e) => {
         let selectedOption = e.target.value
         setSelected(selectedOption)
-
     }
 
 
@@ -116,7 +107,7 @@ const Home = () => {
 
             <RightSection
                 totalVotes={totalVotes && totalVotes}
-                variants={options && options} />
+                variants={variants && variants} />
         </div>
 
     )
