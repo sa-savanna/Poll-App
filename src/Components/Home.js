@@ -8,14 +8,15 @@ import axios from '../axios'
 
 const Home = () => {
 
-    const { question, totalVotes, votes, variants, setLoading, findId } = useContext(DataContext);
+    const { question, totalVotes, variants, setVariant, setLoading, findId } = useContext(DataContext);
     const [selected, setSelected] = useState("")
- 
+
 
     const updateData = useCallback((route, option) => {
         setLoading(true)
         axios.put(`${route}`, option)
             .then(res => {
+                console.log(res.data)
                 console.log("Successfuly")
                 setLoading(false)
             })
@@ -34,6 +35,7 @@ const Home = () => {
         setLoading(true)
         axios.delete(`/Polls/${findId}.json`)
             .then(res => {
+                console.log(res.data)
                 console.log("Successfuly")
                 setLoading(false)
             })
@@ -44,22 +46,22 @@ const Home = () => {
     }, [setLoading, findId])
 
 
-
-    const submitOption = (addOption) => {
+     const submitOption = (addOption) => {
         const updatedOption = [...variants, { option: addOption, votes: 0 }]
         updateData(`/Polls/${findId}/Options.json`, updatedOption)
     }
 
     const sumbitVote = () => {
         // ========doesn't update votes
-        let newVote = [...variants]
-        newVote.map(answer => answer.option === selected &&
-            [...variants, { option: selected, votes: votes + 1 }]
-        )
-        updateData(`/Polls/${findId}/Options.json`, newVote)
 
-        const total = totalVotes + 1
-        updateData(`/Polls/${findId}/TotalVotes.json`, total)
+        setVariant(variants =>
+            variants.map(answer =>
+                answer.option === selected ? { ...answer, votes: answer.votes + 1 } : answer))
+
+        updateData(`/Polls/${findId}/Options.json`, variants)
+
+        // const total = totalVotes + 1
+        // updateData(`/Polls/${findId}/TotalVotes.json`, total)
 
         // =========== working with hardcored data
         // setOptions(variants =>
@@ -67,7 +69,6 @@ const Home = () => {
         //         answer.option === selected ? { ...answer, votes: answer.votes + 1, } : answer
         //     ))
     }
-
 
     const deleteOption = (idx) => {
         let newVariants = [...variants]

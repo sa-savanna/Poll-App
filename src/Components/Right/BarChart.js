@@ -38,7 +38,7 @@ const BarChart = ({ variants }) => {
     return (
         <>
             <Paper >
-                <Chart style={{ height: '350px' }}
+                <Chart
                     data={data}
                 >
                     <ArgumentAxis />

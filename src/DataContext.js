@@ -8,9 +8,9 @@ const DataProvider = props => {
     const [loading, setLoading] = useState(true)
     const [question, setQuestion] = useState("")
     const [totalVotes, setTotalVotes] = useState(0)
-    const [votes, setVotes] = useState(0)
     const [variants, setVariant] = useState([])
     const [findId, setId] = useState("")
+
 
     useEffect(() => {
         axios.get(`/Polls.json`)
@@ -19,7 +19,6 @@ const DataProvider = props => {
                 const result = res.data
                 for (let id in result) {
                     setQuestion(result[id].Question)
-                    setVotes(result[id].Options.votes)
                     setTotalVotes(result[id].TotalVotes)
                     setVariant(result[id].Options)
                     setId(id)
@@ -37,11 +36,11 @@ const DataProvider = props => {
     return (
         <DataContext.Provider
             value={{
-                variants,
+                variants, setVariant,
                 totalVotes,
                 question,
                 loading, setLoading,
-                findId, votes
+                findId
             }}>
             {props.children}
         </DataContext.Provider>
