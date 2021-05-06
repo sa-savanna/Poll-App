@@ -5,6 +5,7 @@ import { Button } from '@material-ui/core';
 
 const AddOption = ({ onSubmit, variants }) => {
 
+    
     const [inputText, setInputText] = useState("")
     
     const options = variants.map(opt => opt.option)

@@ -9,8 +9,6 @@ import {
 import axios from '../axios'
 
 
-
-
 const Admin = () => {
 
     const [loading, setLoading] = useState(true)
@@ -52,7 +50,7 @@ const Admin = () => {
 
 
     const addField = () => {
-        setVariant([...variants, { option: "", vote: 0 }]);
+        setVariant([...variants, { option: "", votes: 0 }]);
     }
 
     const removeField = (i) => {
@@ -66,7 +64,9 @@ const Admin = () => {
         setLoading(true)
         let formOptions = {}
         for (let el in variants) {
-            formOptions[el] = variants[el].option
+            let option = variants[el].option
+            let votes = variants[el].votes
+            formOptions[el] = {option: option, votes: votes}
         }
         const pollQuestion = {
             Question: question,
@@ -75,13 +75,14 @@ const Admin = () => {
         }
         postData(pollQuestion)
         setQuestion('')
+        setVariant([...variants, { option: '', votes: 0 }])
     }
 
 
     return (
         <Container maxWidth="lg">
-            <Grid container spacing={3}>
-                <Grid item xl={12} xs={12}>
+            <Grid container spacing={2}>
+                <Grid item xl={8} xs={8}>
                     <FormControl style={{ margin: '2em' }}>
                         <Card>
                             <CardHeader
@@ -130,7 +131,7 @@ const Admin = () => {
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'flex-end',
-                                    p: 2
+                                    p: 3
                                 }}
                             >
                                 <Button

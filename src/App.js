@@ -30,14 +30,16 @@ const App = () => {
             Home
               </Button>
         </div>
-        <Grid item lg={12}>
-          <Switch>
-            <Route exact path="/"><Home /></Route>
-            <Suspense fallback={<>loading...</>}>
-              <Route path="/admin" component={asyncAdmin}></Route>
-            </Suspense>
-          </Switch>
-        </Grid>
+        <div id='admin-container'>
+          <Grid item lg={12}>
+            <Switch>
+              <Route exact path="/"><Home /></Route>
+              <Suspense fallback={<>loading...</>}>
+                <Route path="/admin" component={asyncAdmin}></Route>
+              </Suspense>
+            </Switch>
+          </Grid>
+        </div>
       </Box>
     </Router >
   )

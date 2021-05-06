@@ -16,6 +16,15 @@ li {
     }
 }
 
+
+#admin-container {
+   
+    .MuiGrid-item {
+        padding: 4px;
+    }
+}
+
+
 .App {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -219,7 +228,7 @@ li {
         border-radius: 16px;
         min-height: 250px;
         border: 7px solid $main-red;
-      
+
         svg rect {
             fill: $main-red
         }
@@ -228,4 +237,7 @@ li {
             height: 300px !important;
         }
     }
+
+
+
 }
