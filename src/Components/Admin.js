@@ -17,7 +17,7 @@ const Admin = () => {
         { option: 'opt1', votes: 0 },
         { option: 'opt2', votes: 0 },
     ])
-
+    const [maxLength, setMaxLength] = useState(80)
 
     const postData = useCallback((data) => {
         axios.post(`/Polls.json`, data)
@@ -42,7 +42,7 @@ const Admin = () => {
 
 
     const handleOptions = (i, event) => {
-        const { name, value } = event.target;
+        const { value } = event.target;
         let newOptions = [...variants]
         newOptions[i].option = value;
         setVariant(newOptions)
@@ -66,7 +66,7 @@ const Admin = () => {
         for (let el in variants) {
             let option = variants[el].option
             let votes = variants[el].votes
-            formOptions[el] = {option: option, votes: votes}
+            formOptions[el] = { option: option, votes: votes }
         }
         const pollQuestion = {
             Question: question,
@@ -91,19 +91,20 @@ const Admin = () => {
                             <Divider />
                             <CardContent>
                                 <Grid container spacing={3}>
-                                    <Grid item xl={12} xs={12}>
-                                        <TextField
-                                            fullWidth
-                                            label="Title"
-                                            name="title"
-                                            onChange={handleTitle}
-                                            required
-                                            value={question}
-                                            variant="outlined"
-                                            inputProps={{ maxLength: 80 }}
-                                            helperText={`${question.length}/80`}
-                                        />
-                                    </Grid>
+                                    {question.length < maxLength &&
+                                        <Grid item xl={12} xs={12}>
+                                            <TextField
+                                                fullWidth
+                                                label="Title"
+                                                name="title"
+                                                onChange={handleTitle}
+                                                required
+                                                value={question}
+                                                variant="outlined"
+                                                helperText={`${question.length}/80`}
+                                            />
+                                        </Grid>
+                                    }
                                     {
                                         variants.map((option, i) => {
                                             return (

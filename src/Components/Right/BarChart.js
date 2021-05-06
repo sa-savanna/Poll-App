@@ -14,7 +14,10 @@ import { Animation } from '@devexpress/dx-react-chart';
 const BarChart = ({ variants }) => {
 
     const data = [...variants]
-    
+    // let data = []
+    // variants ? data = [...variants] : <span>No data</span>
+
+
     let valueX, valueY = []
 
     if (data.length === 0) {
