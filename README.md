@@ -6,9 +6,9 @@
 
 Clone the repo: git clone https://github.com/sa-savanna/Poll-App.git
 
-Install dependencies: npm install or yarn
+Install dependencies: `npm install or yarn`
 
-Start the server: npm run start or yarn start
+Start the server: `npm run start or yarn start`
 
 Views are on: localhost:3000
 
@@ -48,4 +48,5 @@ Views are on: localhost:3000
 ### Contact Me
 
 Email: savanna.be.ua@gmail.com
+
 Loaction: Brussels, Belgium

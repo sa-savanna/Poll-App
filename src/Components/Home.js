@@ -10,8 +10,7 @@ const Home = () => {
 
     const { question, totalVotes, votes, variants, setLoading, findId } = useContext(DataContext);
     const [selected, setSelected] = useState("")
-    const [options, setOptions] = useState([])
-
+ 
 
     const updateData = useCallback((route, option) => {
         setLoading(true)
