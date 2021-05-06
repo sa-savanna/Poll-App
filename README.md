@@ -2,6 +2,10 @@
 
 [Firebase Page](https://poll-b8faa.web.app/)
 
+The Poll application, where you can vote multiple times for preferred option, you can add and delete option and as an administrator, you can create your own questionnaire.
+
+Authentification needs to be implemented.
+
 # Quick start
 
 Clone the repo: git clone https://github.com/sa-savanna/Poll-App.git
@@ -19,6 +23,8 @@ Views are on: localhost:3000
 [React Charts](https://react-charts.js.org/)
 
 [Node Sass](https://www.npmjs.com/package/node-sass)
+
+Using Firebase database
 
 ## File Structure
 
