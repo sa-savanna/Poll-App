@@ -9,10 +9,10 @@ import axios from '../axios'
 const Home = () => {
 
     const { question, setQuestion,
-        totalVotes,
+        totalVotes, setTotalVotes,
         variants, setVariant,
         setLoading, findId } = useContext(DataContext);
-        
+
     const [selected, setSelected] = useState("")
 
 
@@ -78,11 +78,15 @@ const Home = () => {
     const deleteOption = (idx) => {
         let newVariants = [...variants]
         newVariants.splice(idx, 1)
+        setVariant(newVariants)
         updateData(`/Polls/${findId}/Options.json`, newVariants)
     }
 
     const onReset = () => {
         deleteData()
+        setVariant('')
+        setQuestion('')
+        setTotalVotes(0)
     }
 
     const handleSeceltedChange = (e) => {

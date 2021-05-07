@@ -85,8 +85,8 @@ const Admin = () => {
     return (
         <Container maxWidth="lg">
             <Grid container spacing={2}>
-                <Grid item xl={8} xs={8}>
-                    <FormControl style={{ margin: '2em' }}>
+                <Grid item xl={8}lg={8} sm={8} xs={12}>
+                    <FormControl style={{ margin: '1em' }}>
                         <Card>
                             <CardHeader
                                 title="Create your New Poll"
@@ -98,6 +98,7 @@ const Admin = () => {
                                         <Grid item xl={12} xs={12}>
                                             <TextField
                                                 fullWidth
+                                                className='inputs-admin'
                                                 label="Title"
                                                 name="title"
                                                 onChange={handleTitle}
@@ -114,6 +115,7 @@ const Admin = () => {
                                                 <Grid item xl={12} xs={12} key={i}>
                                                     <TextField
                                                         fullWidth
+                                                        className='inputs-admin'
                                                         label={"Poll option " + (i + 1)}
                                                         name={"option " + (i + 1)}
                                                         onChange={(e) => handleOptions(i, e)}
@@ -126,7 +128,7 @@ const Admin = () => {
                                             )
                                         })
                                     }
-                                    <Grid item xl={12} xs={12} >
+                                    <Grid item xl={12} xs={12} className='btn-admin-plusminus'>
                                         <FormHelperText>Add more options</FormHelperText>
                                         <Button color="secondary" variant="contained" onClick={addField}>+</Button>
                                         <Button color="primary" variant="contained" onClick={removeField}>-</Button>
@@ -147,6 +149,7 @@ const Admin = () => {
                                     variant="contained"
                                     type="submit"
                                     onClick={submitPoll}
+                                    className='btn-create-poll'
                                 >
                                     Create Poll
                                 </Button>

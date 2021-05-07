@@ -4,6 +4,19 @@ $main-red: #ef3340;
 $secondary-blue: #005bbb;
 $secondary-yellow: #ffd500;
 
+
+h1 {
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1rem;
+}
+
+h3 {
+    font-size: 0.7rem;
+}
+
 li {
     list-style: none;
 }
@@ -18,10 +31,30 @@ li {
 
 
 #admin-container {
-   
+
     .MuiGrid-item {
         padding: 4px;
     }
+
+    .btn-admin-plusminus>button {
+        margin-right: 10px;
+        padding: 2px 9px;
+        min-width: 40px;
+    }
+
+    .btn-create-poll{
+        margin: 10px;
+        background-color: rgb(0, 243, 0);
+    }
+
+    @media only screen and (max-width: 420px) {
+
+        .btn-admin-plusminus>button {
+            max-width: 35px;
+        }
+
+    }
+
 }
 
 

@@ -37,7 +37,7 @@ const DataProvider = props => {
         <DataContext.Provider
             value={{
                 variants, setVariant,
-                totalVotes, 
+                totalVotes, setTotalVotes,
                 question, setQuestion,
                 loading, setLoading,
                 findId
