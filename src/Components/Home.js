@@ -8,7 +8,11 @@ import axios from '../axios'
 
 const Home = () => {
 
-    const { question, totalVotes, variants, setVariant, setLoading, findId } = useContext(DataContext);
+    const { question, setQuestion,
+        totalVotes,
+        variants, setVariant,
+        setLoading, findId } = useContext(DataContext);
+        
     const [selected, setSelected] = useState("")
 
 
@@ -46,8 +50,9 @@ const Home = () => {
     }, [setLoading, findId])
 
 
-     const submitOption = (addOption) => {
+    const submitOption = (addOption) => {
         const updatedOption = [...variants, { option: addOption, votes: 0 }]
+        setVariant(updatedOption)
         updateData(`/Polls/${findId}/Options.json`, updatedOption)
     }
 
