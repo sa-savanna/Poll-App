@@ -22,7 +22,6 @@ const DataProvider = props => {
                     setTotalVotes(result[id].TotalVotes)
                     setVariant(result[id].Options)
                     setId(id)
-
                 }
                 setLoading(false)
             })

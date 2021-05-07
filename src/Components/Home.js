@@ -15,7 +15,6 @@ const Home = () => {
 
     const [selected, setSelected] = useState("")
 
-
     const updateData = useCallback((route, option) => {
         setLoading(true)
         axios.put(`${route}`, option)
@@ -57,22 +56,28 @@ const Home = () => {
     }
 
     const sumbitVote = () => {
-        // ========doesn't update votes
 
         setVariant(variants =>
             variants.map(answer =>
-                answer.option === selected ? { ...answer, votes: answer.votes + 1 } : answer))
-
+                answer.option === selected ? { ...answer, option: answer.option, votes: answer.votes++ } : answer))
+        updateVotes()
         updateData(`/Polls/${findId}/Options.json`, variants)
 
-        // const total = totalVotes + 1
-        // updateData(`/Polls/${findId}/TotalVotes.json`, total)
-
         // =========== working with hardcored data
-        // setOptions(variants =>
+        // setVariants(variants =>
         //     variants.map(answer =>
         //         answer.option === selected ? { ...answer, votes: answer.votes + 1, } : answer
         //     ))
+    }
+
+    const updateVotes = () => {
+        let sum = 0
+        let newVotes = [...variants]
+        for (let i in newVotes) {
+            sum += newVotes[i].votes
+        }
+        setTotalVotes(sum)
+        updateData(`/Polls/${findId}/TotalVotes.json`, sum)
     }
 
     const deleteOption = (idx) => {
@@ -80,6 +85,7 @@ const Home = () => {
         newVariants.splice(idx, 1)
         setVariant(newVariants)
         updateData(`/Polls/${findId}/Options.json`, newVariants)
+        // setTotalVotes(votes)
     }
 
     const onReset = () => {
