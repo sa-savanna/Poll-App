@@ -82,9 +82,12 @@ const Home = () => {
         updateData(`/Polls/${findId}/Options.json`, newVariants)
     }
 
-    const onReset = () => (
+    const onReset = () => {
         deleteData()
-    )
+        setQuestion('')
+        setTotalVotes(0)
+        setVariant([])
+    }
 
     const handleSeceltedChange = (e) => {
         let selectedOption = e.target.value
