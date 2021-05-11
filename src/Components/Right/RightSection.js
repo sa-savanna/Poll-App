@@ -5,6 +5,9 @@ import BarChart from './BarChart'
 
 const RightSection = ({ totalVotes, variants }) => {
 
+    
+
+
     return (
         <div className="right-section">
             <BarChart variants={variants && variants} />
