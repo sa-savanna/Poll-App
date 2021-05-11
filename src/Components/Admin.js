@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react'
 import {
-    FormControl, FormHelperText,
-    TextField, CardContent,
-    Box, Card, CardHeader, Divider,
-    Container, Button,
-    Grid, Typography,
+    FormControl,
+    CardContent,
+    Card, CardHeader, Divider,
+    Container,
+    Grid,
 } from '@material-ui/core';
 import axios from '../axios'
 import { useHistory } from "react-router-dom";
@@ -18,17 +18,17 @@ const Admin = () => {
     } = useContext(DataContext);
 
     let history = useHistory();
-    const [pollQuestion, setpollQuestion] = useState("")
+    const [pollQuestion, setPollQuestion] = useState("")
     const [options, setOptions] = useState([
-        { option: 'opt1', votes: 0 },
-        { option: 'opt2', votes: 0 },
+        { option: '', votes: 0 },
+        { option: '', votes: 0 },
     ])
     const [visible, setVisible] = useState(false)
 
     const postData = useCallback((data) => {
         axios.post(`/Polls.json`, data)
             .then(response => {
-                console.log("Successfuly")
+                console.log("Successfuly", response)
                 setLoading(false)
             })
             .catch(error => {
@@ -43,7 +43,7 @@ const Admin = () => {
     }, [postData])
 
     const handleTitle = (event) => {
-        setpollQuestion(event.target.value);
+        setPollQuestion(event.target.value);
     };
 
 
@@ -79,8 +79,9 @@ const Admin = () => {
             TotalVotes: 0,
             Options: formOptions
         }
+        // console.log(formOptions)
         postData(pollpollQuestion)
-        setpollQuestion('')
+        setPollQuestion('')
         setOptions([...options, { option: '', votes: 0 }])
         alert("Information submited")
         history.push("/")
@@ -90,7 +91,7 @@ const Admin = () => {
         <Container maxWidth="lg">
             <Grid container spacing={2}>
                 <Grid item xl={8} lg={8} sm={8} xs={12}>
-                    <FormControl style={{ margin: '1em' }}>
+                    <FormControl noValidate style={{ margin: '1em' }}>
                         <Card>
                             <CardHeader
                                 title="Create your New Poll"
@@ -122,13 +123,20 @@ const Admin = () => {
                     </FormControl>
                 </Grid>
             </Grid>
+
             <Grid container spacing={2}>
-                <Grid item xl={8} lg={8} sm={8} xs={12}>
-                    <ShowData submitPoll={submitPoll} setVisible={setVisible} />
+                <Grid item xs={12}>
+                    <ShowData submitPoll={submitPoll} setVisible={() => setVisible(true)} />
                     {
                         visible &&
                         <div className='statistic'>
-                            <Cards variants={variants} totalVotes={totalVotes} question ={question}/>
+                            <Grid
+                                container
+                                spacing={3}
+                                sx={{ justifyContent: 'space-between' }}
+                            >
+                                <Cards variants={variants} totalVotes={totalVotes} question={question} />
+                            </Grid>
                         </div>
                     }
                 </Grid>

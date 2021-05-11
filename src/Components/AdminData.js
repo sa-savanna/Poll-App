@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 import {
-    FormControl, FormHelperText,
+    FormHelperText,
     TextField, CardContent,
-    Box, Card, CardHeader, Divider,
-    Container, Button,
-    Grid, Typography,
+    Box, Card, CardHeader,
+    Button, Typography,
+    Grid, TableBody, TableCell, TableRow
 } from '@material-ui/core';
-
+import { Table } from 'react-bootstrap';
 
 
 export const PollQuestion = ({ handleTitle, pollQuestion }) => {
@@ -85,9 +85,8 @@ export const ShowData = ({ setVisible, submitPoll }) => {
         <Button
             color="default"
             variant="contained"
-            onClick={submitPoll}
             className='btn-showdata'
-            onClick={() => setVisible(true)}
+            onClick={setVisible}
         >
             Show all Questions
         </Button>
@@ -95,38 +94,87 @@ export const ShowData = ({ setVisible, submitPoll }) => {
 }
 
 export const Cards = ({ variants, totalVotes, question }) => {
+    const options = [...variants]
+    const data = options.map(opt => opt.votes)
+    const degsToRadians = (degs) => {
+        return (degs / 360) * (2 * Math.PI)
+    }
+
+    const size = 200;
+    const lineWidth = 80;
+
+    const canvas = useRef(null);
+
+    const draw = useCallback(() => {
+        const colors = ['#577590', '#f94144', '#43aa8b', '#f3722c', '#90be6d', '#f9c74f', '#5a189a', '#e0aaff']
+        const context = canvas.current.getContext("2d");
+        context.save();
+        const center = size / 2;
+        const radius = center - (lineWidth / 2);
+        const dataTotal = data.reduce((r, point) => r + point, 0)
+
+        let startAngle = degsToRadians(-90);
+        let colorIndex = 0;
+
+        data.forEach(dataPoint => {
+            const section = dataPoint / dataTotal * 360;
+            const endAngle = startAngle + degsToRadians(section);
+            const color = colors[colorIndex];
+            colorIndex++;
+            if (colorIndex >= colors.length) {
+                colorIndex = 0;
+            }
+           
+            context.beginPath();
+            context.strokeStyle = color;
+            context.arc(center, center, radius, startAngle, endAngle);
+            context.stroke();
+            startAngle = endAngle;
+        })
+    }, [data])
+
+
+
+    useEffect(() => {
+        draw()
+    }, [draw])
+
+
     return (
-        <Card >
+        <Card>
+            <CardHeader title={question}></CardHeader>
             <CardContent>
                 <Grid
                     container
+                    direction='row'
                     spacing={3}
-                    sx={{ justifyContent: 'space-between' }}
+                    justify="space-between"
                 >
                     <Grid item id="article">
-                        <Typography variant="h5" component="h3">
-                            {question}
-                        </Typography>
-                        {
-                            variants && variants.map(opt =>
-                                <>
-                                    <Typography>
-                                       Options:  {opt.option}
-                                    </Typography>
-                                    <Typography color="textSecondary">
-                                       Votes: {opt.votes}
-                                    </Typography>
-                                </>
-                            )
-                        }
+                        <Table>
+                            <TableBody>
+                                {
+                                    variants && variants.map(opt =>
+                                        <TableRow key={opt.option}>
+                                            <TableCell>Option:  {opt.option}</TableCell>
+                                            <TableCell>Votes: {opt.votes}</TableCell>
+                                        </TableRow>
+                                    )
+                                }
+                            </TableBody>
+                        </Table>
                         <Typography variant="h6" color='secondary'>
                             Total votes: {totalVotes}
                         </Typography>
                     </Grid>
-                    <Grid item id="chart"></Grid>
+                    <Grid item id="chart">
+                        <canvas ref={canvas}
+                            height={size}
+                            width={size}
+                        />
+                    </Grid>
                 </Grid>
             </CardContent>
         </Card>
     )
 }
-

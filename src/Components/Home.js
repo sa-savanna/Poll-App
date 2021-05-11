@@ -17,10 +17,9 @@ const Home = () => {
 
     const updateData = useCallback((route, option) => {
         setLoading(true)
-        axios.put(`${route}`, option)
+        axios.put(`${route}`, { method: 'POST', mode: 'cors', body: option })
             .then(res => {
-                console.log(res.data)
-                console.log("Successfuly")
+                console.log("Successfuly", res.data)
                 setLoading(false)
             })
             .catch(error => {
@@ -38,7 +37,6 @@ const Home = () => {
         setLoading(true)
         axios.delete(`/Polls/${findId}.json`)
             .then(res => {
-                console.log(res.data)
                 console.log("Successfuly")
                 setLoading(false)
             })
@@ -56,18 +54,11 @@ const Home = () => {
     }
 
     const sumbitVote = () => {
-
         setVariant(variants =>
             variants.map(answer =>
                 answer.option === selected ? { ...answer, option: answer.option, votes: answer.votes++ } : answer))
         updateVotes()
         updateData(`/Polls/${findId}/Options.json`, variants)
-
-        // =========== working with hardcored data
-        // setVariants(variants =>
-        //     variants.map(answer =>
-        //         answer.option === selected ? { ...answer, votes: answer.votes + 1, } : answer
-        //     ))
     }
 
     const updateVotes = () => {
@@ -84,7 +75,7 @@ const Home = () => {
         let newVariants = [...variants]
         newVariants.splice(idx, 1)
         setVariant(newVariants)
-        updateData(`/Polls/${findId}/Options.json`, newVariants)
+        // updateData(`/Polls/${findId}/Options.json`, newVariants)
         // setTotalVotes(votes)
     }
 

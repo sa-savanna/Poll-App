@@ -2,7 +2,7 @@
 
 [Firebase Page](https://poll-b8faa.web.app/)
 
-The Poll application, where you can vote multiple times for preferred option, you can add and delete option and as an administrator, you can create your own questionnaire.
+The Poll application, where you can vote multiple times for preferred option, you can add and delete option and as an administrator, and create your own questionnaire.
 
 Authentification needs to be implemented.
 
@@ -45,6 +45,7 @@ Using Firebase database
       - [RightSection.js](./src/Components/Right/RightSection.js)
       - [BarChart.js](./src/Components/Right/BarChart.js)
     - [Admin.js](./src/Components/Admin.js)
+    - [AdminData.js](./src/Components/AdminData.js)
     - [Home.js](./src/Components/Home.js)
   - [index.js](./src/index.js)
   - [App.scss](./src/App.scss)
