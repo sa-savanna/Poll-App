@@ -13,8 +13,10 @@ import { PollQuestion, Inputs, GroupButtons, CreatePoll, ShowData, Cards } from 
 
 const Admin = () => {
 
-    const { loading, setLoading,
-        variants, totalVotes, question
+    const {
+        loading, setLoading,
+        variants, totalVotes,
+        question
     } = useContext(DataContext);
 
     let history = useHistory();
@@ -75,11 +77,10 @@ const Admin = () => {
             formOptions[el] = { option: option, votes: votes }
         }
         const pollpollQuestion = {
-            pollQuestion: pollQuestion,
+            Question: pollQuestion,
             TotalVotes: 0,
             Options: formOptions
         }
-        // console.log(formOptions)
         postData(pollpollQuestion)
         setPollQuestion('')
         setOptions([...options, { option: '', votes: 0 }])

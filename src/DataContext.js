@@ -11,6 +11,7 @@ const DataProvider = props => {
     const [variants, setVariant] = useState([])
     const [findId, setId] = useState("")
     const [selected, setSelected] = useState("")
+    console.log(question);
 
     const fetchData = useCallback(() => {
         axios.get(`/Polls.json`)
@@ -119,7 +120,7 @@ const DataProvider = props => {
                 totalVotes, setTotalVotes,
                 question, setQuestion,
                 loading, setLoading,
-                findId
+                findId,
             }}>
             {props.children}
         </DataContext.Provider>

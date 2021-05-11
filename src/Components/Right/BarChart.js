@@ -13,6 +13,7 @@ import { Animation } from '@devexpress/dx-react-chart';
 
 const BarChart = ({ variants }) => {
 
+
     const data = [...variants]
 
     let valueX, valueY = []

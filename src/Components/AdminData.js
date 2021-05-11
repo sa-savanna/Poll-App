@@ -96,17 +96,18 @@ export const ShowData = ({ setVisible, submitPoll }) => {
 export const Cards = ({ variants, totalVotes, question }) => {
     const options = [...variants]
     const data = options.map(opt => opt.votes)
+
     const degsToRadians = (degs) => {
         return (degs / 360) * (2 * Math.PI)
     }
 
-    const size = 200;
-    const lineWidth = 80;
+    const size = 120;
+    const lineWidth = 60;
 
     const canvas = useRef(null);
 
     const draw = useCallback(() => {
-        const colors = ['#577590', '#f94144', '#43aa8b', '#f3722c', '#90be6d', '#f9c74f', '#5a189a', '#e0aaff']
+        const colors = ['#9b5de5', '#f15bb5', '#fee440', '#00bbf9', '#00f5d4']
         const context = canvas.current.getContext("2d");
         context.save();
         const center = size / 2;
@@ -124,12 +125,23 @@ export const Cards = ({ variants, totalVotes, question }) => {
             if (colorIndex >= colors.length) {
                 colorIndex = 0;
             }
-           
+
             context.beginPath();
             context.strokeStyle = color;
+            context.lineWidth = 20;
             context.arc(center, center, radius, startAngle, endAngle);
             context.stroke();
             startAngle = endAngle;
+
+            context.font = '12px verdana';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            let midAngle = startAngle + (endAngle - startAngle) / 2;
+            let labelRadius = radius * 0.75;
+            let x = size + (labelRadius) * Math.cos(midAngle);
+            let y = size + (labelRadius) * Math.sin(midAngle);
+            context.fillStyle = 'white';
+            context.fillText(data, x, y);
         })
     }, [data])
 

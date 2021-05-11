@@ -39,7 +39,8 @@ const Home = () => {
 
             <RightSection
                 totalVotes={totalVotes && totalVotes}
-                variants={variants && variants} />
+                variants={variants && variants}
+            />
         </div>
 
     )
