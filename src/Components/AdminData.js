@@ -1,12 +1,13 @@
-import React, { useRef, useEffect, useCallback } from 'react'
+import React from 'react'
 import {
     FormHelperText,
     TextField, CardContent,
     Box, Card, CardHeader,
     Button, Typography,
-    Grid, TableBody, TableCell, TableRow
+    Grid, Table, TableBody, TableCell, TableRow
 } from '@material-ui/core';
-import { Table } from 'react-bootstrap';
+import { Doughnut, defaults } from 'react-chartjs-2';
+
 
 
 export const PollQuestion = ({ handleTitle, pollQuestion }) => {
@@ -94,62 +95,50 @@ export const ShowData = ({ setVisible, submitPoll }) => {
 }
 
 export const Cards = ({ variants, totalVotes, question }) => {
-    const options = [...variants]
-    const data = options.map(opt => opt.votes)
+    const dataOptions = [...variants]
+    let data = []
+    let labels = []
+    const size = 120
+    const colors = ['#9b5de5', '#f15bb5', '#fee440', '#00bbf9', '#00f5d4']
 
-    const degsToRadians = (degs) => {
-        return (degs / 360) * (2 * Math.PI)
-    }
+    dataOptions.map(opt => (
+        data.push(opt.votes)
+    ))
 
-    const size = 120;
-    const lineWidth = 60;
-
-    const canvas = useRef(null);
-
-    const draw = useCallback(() => {
-        const colors = ['#9b5de5', '#f15bb5', '#fee440', '#00bbf9', '#00f5d4']
-        const context = canvas.current.getContext("2d");
-        context.save();
-        const center = size / 2;
-        const radius = center - (lineWidth / 2);
-        const dataTotal = data.reduce((r, point) => r + point, 0)
-
-        let startAngle = degsToRadians(-90);
-        let colorIndex = 0;
-
-        data.forEach(dataPoint => {
-            const section = dataPoint / dataTotal * 360;
-            const endAngle = startAngle + degsToRadians(section);
-            const color = colors[colorIndex];
-            colorIndex++;
-            if (colorIndex >= colors.length) {
-                colorIndex = 0;
+    const dataSet = {
+        maintainAspectRatio: false,
+        responsive: false,
+        labels: false,
+        datasets: [
+            {
+                data: data,
+                backgroundColor: colors,
+                hoverBackgroundColor: colors
             }
+        ]
+    };
 
-            context.beginPath();
-            context.strokeStyle = color;
-            context.lineWidth = 20;
-            context.arc(center, center, radius, startAngle, endAngle);
-            context.stroke();
-            startAngle = endAngle;
+    const options = {
+        legend: {
+            display: false
+        },
+        elements: {
+            arc: {
+                borderWidth: 1
+            }
+        },
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem) {
+                    dataOptions.map(opt => (
+                        labels.push(opt.option)
+                    ))
+                    return Number(tooltipItem.labels);
+                }
+            }
+        }
+    };
 
-            context.font = '12px verdana';
-            context.textAlign = 'center';
-            context.textBaseline = 'middle';
-            let midAngle = startAngle + (endAngle - startAngle) / 2;
-            let labelRadius = radius * 0.75;
-            let x = size + (labelRadius) * Math.cos(midAngle);
-            let y = size + (labelRadius) * Math.sin(midAngle);
-            context.fillStyle = 'white';
-            context.fillText(data, x, y);
-        })
-    }, [data])
-
-
-
-    useEffect(() => {
-        draw()
-    }, [draw])
 
 
     return (
@@ -180,10 +169,13 @@ export const Cards = ({ variants, totalVotes, question }) => {
                         </Typography>
                     </Grid>
                     <Grid item id="chart">
-                        <canvas ref={canvas}
-                            height={size}
+                        <Doughnut
+                            data={dataSet}
+                            options={options}
                             width={size}
+                            height={size}
                         />
+
                     </Grid>
                 </Grid>
             </CardContent>

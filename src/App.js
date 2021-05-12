@@ -19,7 +19,6 @@ const App = () => {
       <Box
         sx={{
           backgroundColor: 'background.default',
-          minHeight: '100%',
           py: 15
         }}>
         <div className='nav-buttons'>

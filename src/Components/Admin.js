@@ -53,7 +53,9 @@ const Admin = () => {
         const { value } = event.target;
         let newOptions = [...options]
         newOptions[i].option = value;
-        setOptions(newOptions)
+        const checkDuplicates = newOptions.map(opt => opt.option)
+        !checkDuplicates.includes(value) && value !== "" &&
+            setOptions(newOptions)
     };
 
 
@@ -127,9 +129,8 @@ const Admin = () => {
 
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <ShowData submitPoll={submitPoll} setVisible={() => setVisible(true)} />
-                    {
-                        visible &&
+                    {/* <ShowData submitPoll={submitPoll} setVisible={() => setVisible(true)} /> */}
+                    { !loading &&
                         <div className='statistic'>
                             <Grid
                                 container

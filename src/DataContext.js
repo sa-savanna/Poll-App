@@ -11,7 +11,7 @@ const DataProvider = props => {
     const [variants, setVariant] = useState([])
     const [findId, setId] = useState("")
     const [selected, setSelected] = useState("")
-    console.log(question);
+
 
     const fetchData = useCallback(() => {
         axios.get(`/Polls.json`)
@@ -71,7 +71,6 @@ const DataProvider = props => {
     }
 
 
-
     const updateVotes = () => {
         let sum = 0
         let newVotes = [...variants]
@@ -97,10 +96,13 @@ const DataProvider = props => {
 
     const deleteOption = (idx) => {
         let newVariants = [...variants]
+        const votes = newVariants[idx].votes
+        let divition = totalVotes - votes
+        setTotalVotes(divition)
+        updateData(`/Polls/${findId}/TotalVotes.json`, divition)
         newVariants.splice(idx, 1)
         setVariant(newVariants)
         updateData(`/Polls/${findId}/Options.json`, newVariants)
-        // setTotalVotes(votes)
     }
 
     const onReset = () => {
