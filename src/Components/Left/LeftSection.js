@@ -10,7 +10,7 @@ const LeftSection = ({ deleteOption, submitOption, variants, onReset, question }
     return (
         <div className="left-section">
             <div className="left-main">
-                <h1>{question && question}</h1>
+                <h1>{question}</h1>
                 <ol>
                     {
                         variants && variants.map((variant, index) =>

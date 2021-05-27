@@ -24,24 +24,27 @@ const DataProvider = props => {
     const [variants, setVariant] = useState(initialState.variants)
     const [findId, setId] = useState(initialState.id)
     const [selected, setSelected] = useState("")
-
-
+    const [allData, setFetchedData] = useState([])
+    // console.log(allData);
     const fetchData = useCallback(() => {
         axios.get(`/Polls.json`)
             .then(res => {
-                // setLoading(true)
+                setLoading(true)
                 const result = res.data
+                // console.log(typeof(result))
                 for (let id in result) {
                     setQuestion(result[id].Question)
                     setTotalVotes(result[id].TotalVotes)
                     setVariant(result[id].Options)
                     setId(id)
+                    setFetchedData(Object.values(result))
+                    
                 }
-                // setLoading(false)
+                setLoading(false)
             })
             .catch(error => {
                 console.error(error)
-                // setLoading(false)
+                setLoading(false)
             })
     }, [])
 
@@ -130,7 +133,7 @@ const DataProvider = props => {
         setVariant(initialState.variants)
         setId(initialState.id)
     }
-
+    
     return (
         <DataContext.Provider
             value={{
@@ -141,7 +144,7 @@ const DataProvider = props => {
                 totalVotes, setTotalVotes,
                 question, setQuestion,
                 loading, setLoading,
-                findId,
+                findId, allData,
             }}>
             {props.children}
         </DataContext.Provider>

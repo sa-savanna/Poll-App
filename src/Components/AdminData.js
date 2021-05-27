@@ -101,6 +101,7 @@ export const ShowData = ({ setVisible, submitPoll }) => {
 }
 
 export const Cards = ({ variants, totalVotes, question }) => {
+    console.log(variants);
     const dataOptions = [...variants]
     let data = []
     let labels = []
@@ -110,6 +111,10 @@ export const Cards = ({ variants, totalVotes, question }) => {
     dataOptions.map(opt => (
         data.push(opt.votes)
     ))
+
+    // variants.map(opt => (
+    //     data.push(opt.votes)
+    // ))
 
     const dataSet = {
         maintainAspectRatio: false,
@@ -138,6 +143,8 @@ export const Cards = ({ variants, totalVotes, question }) => {
                 label: function () {
                     dataOptions.map(opt => (
                         labels.push(opt.option)
+                        // variants.map(opt => (
+                        //     labels.push(opt.option)
                     ))
                     return labels;
                 }
@@ -161,9 +168,9 @@ export const Cards = ({ variants, totalVotes, question }) => {
                         <Table>
                             <TableBody>
                                 {
-                                    variants && variants.map(opt =>
+                                    variants.map(opt =>
                                         <TableRow key={opt.option}>
-                                            <TableCell>Option:  {opt.option}</TableCell>
+                                            <TableCell>Option: {opt.option}</TableCell>
                                             <TableCell>Votes: {opt.votes}</TableCell>
                                         </TableRow>
                                     )
@@ -185,6 +192,7 @@ export const Cards = ({ variants, totalVotes, question }) => {
                     </Grid>
                 </Grid>
             </CardContent>
-        </Card>
+        </Card >
+
     )
 }

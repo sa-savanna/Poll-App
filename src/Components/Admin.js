@@ -14,10 +14,7 @@ import { PollQuestion, Inputs, GroupButtons, CreatePoll, Cards } from './AdminDa
 const Admin = () => {
 
     const {
-        loading, setLoading,
-        variants, setVariant,
-        totalVotes,
-        question
+        loading, setLoading, allData,
     } = useContext(DataContext);
 
     let history = useHistory();
@@ -134,6 +131,18 @@ const Admin = () => {
         setDisable(true)
     }
 
+    const cardData = [...allData]
+
+    const transData = []
+    for (let item in cardData) {
+
+        transData.push({
+            question: cardData[item].Question,
+            total: cardData[item].TotalVotes,
+            options: cardData[item].Options
+        })
+    }
+    // console.log(transData);
     return (
         <Container maxWidth="lg">
             <Grid container spacing={2}>
@@ -175,17 +184,27 @@ const Admin = () => {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     {/* <ShowData submitPoll={submitPoll} setVisible={() => setVisible(true)} /> */}
-                    {!loading &&
-                        <div className='statistic'>
-                            <Grid
-                                container
-                                spacing={3}
-                                sx={{ justifyContent: 'space-between' }}
-                            >
-                                <Cards variants={variants} totalVotes={totalVotes} question={question} />
-                            </Grid>
-                        </div>
-                    }
+
+                    {/* {!loading && */}
+                    <div className='statistic'>
+                        <Grid
+                            container
+                            spacing={3}
+                            sx={{ justifyContent: 'space-between' }}
+                        >
+
+                            {
+                                cardData.map((item, index) =>
+                                    <Cards
+                                        key={index}
+                                        variants={item.Options}
+                                        totalVotes={item.TotalVotes}
+                                        question={item.Question} />
+                                )
+                            }
+                        </Grid>
+                    </div>
+                    {/* } */}
                 </Grid>
             </Grid>
         </Container>

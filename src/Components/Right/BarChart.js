@@ -9,8 +9,6 @@ import { Paper } from '@material-ui/core'
 import { Animation } from '@devexpress/dx-react-chart';
 
 
-
-
 const BarChart = ({ variants }) => {
 
     const data = [...variants]
