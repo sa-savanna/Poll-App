@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { Form } from "react-bootstrap"
 import { Button } from '@material-ui/core';
 
@@ -6,7 +6,7 @@ import { Button } from '@material-ui/core';
 const AddOption = ({ onSubmit, variants }) => {
 
     const [inputText, setInputText] = useState("")
-    
+
     const options = variants.map(opt => opt.option)
 
     const submitHandler = event => {
@@ -26,7 +26,12 @@ const AddOption = ({ onSubmit, variants }) => {
                 value={inputText}
                 onChange={e => setInputText(e.target.value)}
             />{' '}
-            <Button color="primary" size='small' type="submit" variant="contained" onClick={submitHandler}>Add</Button>
+            <Button
+                color="primary"
+                size='small' 
+                type="submit"
+                variant="contained"
+                onClick={submitHandler}>Add</Button>
         </Form>
 
     )

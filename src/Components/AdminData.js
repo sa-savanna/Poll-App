@@ -1,19 +1,20 @@
 import React from 'react'
 import {
-    FormHelperText,
+    FormHelperText, FormControl,
     TextField, CardContent,
     Box, Card, CardHeader,
     Button, Typography,
     Grid, Table, TableBody, TableCell, TableRow
 } from '@material-ui/core';
-import { Doughnut, defaults } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
 
 
-export const PollQuestion = ({ handleTitle, pollQuestion }) => {
+export const PollQuestion = ({ handleTitle, error, pollQuestion }) => {
     return (
         <Grid item xl={12} xs={12}>
             <TextField
+                // {...(error && { error: true, helperText: error })}
                 fullWidth
                 className='inputs-admin'
                 label="Title"
@@ -28,20 +29,24 @@ export const PollQuestion = ({ handleTitle, pollQuestion }) => {
     )
 }
 
-export const Inputs = ({ onChange, value, label, name }) => {
+export const Inputs = ({ onChange, value, error, label, name }) => {
     return (
         <Grid item xl={12} xs={12}>
-            <TextField
-                fullWidth
-                className='inputs-admin'
-                label={label}
-                name={name}
-                onChange={onChange}
-                required
-                value={value}
-                variant="outlined"
-                inputProps={{ maxLength: 80 }}
-            />
+            <FormControl {...(error && { error: true })}>
+                <TextField
+                    required
+                    fullWidth
+                    className='inputs-admin'
+                    label={label}
+                    name={name}
+                    onChange={onChange}
+                    value={value}
+                    variant="outlined"
+                    inputProps={{ maxLength: 80 }}
+
+                />
+                {error && <FormHelperText>{error}</FormHelperText>}
+            </FormControl>
         </Grid>
     )
 }
@@ -57,7 +62,7 @@ export const GroupButtons = ({ addField, removeField }) => {
 }
 
 
-export const CreatePoll = ({ loading, submitPoll }) => {
+export const CreatePoll = ({ loading, submitPoll, disabled }) => {
     return (
         <Box
             sx={{
@@ -72,6 +77,7 @@ export const CreatePoll = ({ loading, submitPoll }) => {
                 variant="contained"
                 type="submit"
                 onClick={submitPoll}
+                disabled={disabled}
                 className='btn-create-poll'
             >
                 Create Poll
@@ -129,11 +135,11 @@ export const Cards = ({ variants, totalVotes, question }) => {
         },
         tooltips: {
             callbacks: {
-                label: function (tooltipItem) {
+                label: function () {
                     dataOptions.map(opt => (
                         labels.push(opt.option)
                     ))
-                    return Number(tooltipItem.labels);
+                    return labels;
                 }
             }
         }

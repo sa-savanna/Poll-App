@@ -9,23 +9,40 @@ import {
 import axios from '../axios'
 import { useHistory } from "react-router-dom";
 import { DataContext } from "../DataContext"
-import { PollQuestion, Inputs, GroupButtons, CreatePoll, ShowData, Cards } from './AdminData';
+import { PollQuestion, Inputs, GroupButtons, CreatePoll, Cards } from './AdminData';
 
 const Admin = () => {
 
     const {
         loading, setLoading,
-        variants, totalVotes,
+        variants, setVariant,
+        totalVotes,
         question
     } = useContext(DataContext);
 
     let history = useHistory();
-    const [pollQuestion, setPollQuestion] = useState("")
-    const [options, setOptions] = useState([
-        { option: '', votes: 0 },
-        { option: '', votes: 0 },
-    ])
-    const [visible, setVisible] = useState(false)
+
+    const initialFValues = {
+        pollQuestion: '',
+        variants: [
+            {
+                option: '',
+                votes: 0
+            },
+            {
+                option: '',
+                votes: 0
+            },
+        ],
+        totalVotes: 0
+    }
+
+    const [pollQuestion, setPollQuestion] = useState(initialFValues.pollQuestion)
+    const [options, setOptions] = useState(initialFValues.variants)
+    const [disabled, setDisable] = useState(false)
+    const [errorText, setErrorText] = useState(null)
+
+
 
     const postData = useCallback((data) => {
         axios.post(`/Polls.json`, data)
@@ -53,11 +70,36 @@ const Admin = () => {
         const { value } = event.target;
         let newOptions = [...options]
         newOptions[i].option = value;
-        const checkDuplicates = newOptions.map(opt => opt.option)
-        !checkDuplicates.includes(value) && value !== "" &&
-            setOptions(newOptions)
+        const variants = newOptions.map(opt => opt.option)
+        // console.log(value in variants);
+        for (let v in variants) {
+            variants.indexOf(v) === 1 && console.log('yes')
+        }
+        // if (value in variants) {
+        //     setErrorText('No!!!')
+        //     console.log(value in variants);
+        // }
+
+        setOptions(newOptions)
+        // console.log(newOptions);
     };
 
+    const validateForm = () => {
+        let temp = {}
+        temp.question = pollQuestion.length !== 0 ? '' : "Create the question"
+
+        for (let el in options) {
+            let option = options[el].option
+            let values = []
+            option.length !== 0 ? values.push(option) : values.push("This field shouldn't be empty")
+            temp.value = values
+
+            // !temp.value.includes(option) ? "" : "Imagine new option"
+            setErrorText({ ...temp })
+        }
+        console.log(temp);
+        // return Object.values(temp).every(x => x =="")
+    }
 
     const addField = () => {
         setOptions([...options, { option: "", votes: 0 }]);
@@ -71,6 +113,7 @@ const Admin = () => {
 
     const submitPoll = (e) => {
         e.preventDefault()
+        validateForm() && alert("test")
         setLoading(true)
         let formOptions = {}
         for (let el in options) {
@@ -88,6 +131,7 @@ const Admin = () => {
         setOptions([...options, { option: '', votes: 0 }])
         alert("Information submited")
         history.push("/")
+        setDisable(true)
     }
 
     return (
@@ -103,7 +147,7 @@ const Admin = () => {
                             <CardContent>
                                 <Grid container spacing={3}>
                                     {pollQuestion.length < 80 &&
-                                        <PollQuestion handleTitle={handleTitle} pollQuestion={pollQuestion} />
+                                        <PollQuestion error={errorText} handleTitle={handleTitle} pollQuestion={pollQuestion} />
                                     }
                                     {
                                         options.map((option, i) =>
@@ -112,6 +156,7 @@ const Admin = () => {
                                                 name={"option " + (i + 1)}
                                                 value={option[i]}
                                                 onChange={(e) => handleOptions(i, e)}
+                                                error={errorText}
                                             />
                                         )
                                     }
@@ -120,7 +165,7 @@ const Admin = () => {
                             </CardContent>
                             <Divider />
 
-                            <CreatePoll submitPoll={submitPoll} loading={loading} />
+                            <CreatePoll submitPoll={submitPoll} loading={loading} disabled={disabled} />
 
                         </Card>
                     </FormControl>
@@ -130,7 +175,7 @@ const Admin = () => {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     {/* <ShowData submitPoll={submitPoll} setVisible={() => setVisible(true)} /> */}
-                    { !loading &&
+                    {!loading &&
                         <div className='statistic'>
                             <Grid
                                 container

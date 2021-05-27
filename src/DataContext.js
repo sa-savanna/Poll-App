@@ -3,20 +3,33 @@ import axios from "./axios"
 
 export const DataContext = createContext();
 
+
+const initialState = {
+    id: 0,
+    question: "What is the value of PI",
+    variants: [
+        { option: "3.1416", votes: 3 },
+        { option: "3.15", votes: 5 },
+        { option: "3.14", votes: 8 }
+    ],
+    totalVotes: 16
+}
+
+
 const DataProvider = props => {
 
     const [loading, setLoading] = useState(true)
-    const [question, setQuestion] = useState("")
-    const [totalVotes, setTotalVotes] = useState(0)
-    const [variants, setVariant] = useState([])
-    const [findId, setId] = useState("")
+    const [question, setQuestion] = useState(initialState.question)
+    const [totalVotes, setTotalVotes] = useState(initialState.totalVotes)
+    const [variants, setVariant] = useState(initialState.variants)
+    const [findId, setId] = useState(initialState.id)
     const [selected, setSelected] = useState("")
 
 
     const fetchData = useCallback(() => {
         axios.get(`/Polls.json`)
             .then(res => {
-                setLoading(true)
+                // setLoading(true)
                 const result = res.data
                 for (let id in result) {
                     setQuestion(result[id].Question)
@@ -24,11 +37,11 @@ const DataProvider = props => {
                     setVariant(result[id].Options)
                     setId(id)
                 }
-                setLoading(false)
+                // setLoading(false)
             })
             .catch(error => {
                 console.error(error)
-                setLoading(false)
+                // setLoading(false)
             })
     }, [])
 
@@ -67,7 +80,9 @@ const DataProvider = props => {
     const submitOption = (addOption) => {
         const updatedOption = [...variants, { option: addOption, votes: 0 }]
         setVariant(updatedOption)
-        updateData(`/Polls/${findId}/Options.json`, updatedOption)
+        if (findId !== initialState.id) {
+            updateData(`/Polls/${findId}/Options.json`, updatedOption)
+        }
     }
 
 
@@ -82,11 +97,14 @@ const DataProvider = props => {
     }
 
     const sumbitVote = () => {
-        setVariant(variants =>
-            variants.map(answer =>
-                answer.option === selected ? { ...answer, option: answer.option, votes: answer.votes++ } : answer))
-        updateData(`/Polls/${findId}/Options.json`, variants)
-        updateVotes()
+        let newVar = [...variants]
+        newVar.map(answer => answer.option === selected ?
+            { ...answer, option: answer.option, votes: answer.votes++ } : answer)
+        setVariant(newVar)
+        if (findId !== initialState.id) {
+            updateData(`/Polls/${findId}/Options.json`, newVar);
+            updateVotes()
+        }
     }
 
     const handleSeceltedChange = (e) => {
@@ -106,10 +124,11 @@ const DataProvider = props => {
     }
 
     const onReset = () => {
-        deleteData()
-        setQuestion('')
-        setTotalVotes(0)
-        setVariant([])
+        // deleteData()
+        setQuestion(initialState.question)
+        setTotalVotes(initialState.totalVotes)
+        setVariant(initialState.variants)
+        setId(initialState.id)
     }
 
     return (
